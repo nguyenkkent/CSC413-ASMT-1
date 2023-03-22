@@ -10,6 +10,7 @@ public class ParsedRequest {
   private Map<String,String> headerMap = new HashMap<>();
   private String method;
   private String body;
+  private String version;
 
   public String getQueryParam(String key){
     return queryMap.get(key);
@@ -17,6 +18,14 @@ public class ParsedRequest {
 
   public void setQueryParam(String key, String value){
     this.queryMap.put(key, value);
+  }
+
+  public void setHeaderParam(String key, String value){
+    this.headerMap.put(key, value);
+  }
+
+  public String getHeaderParam(String key){
+    return headerMap.get(key);
   }
 
   public void setPath(String path) {
@@ -41,5 +50,13 @@ public class ParsedRequest {
 
   public void setBody(String body) {
     this.body = body;
+  }
+
+  public void setVersion(String version){
+    this.version = version;
+  }
+
+  public String getVersion(){
+    return version;
   }
 }

@@ -57,8 +57,8 @@ public class Server {
     }
   }
 
-  // Assume the http server feeds the entire raw http request here
-  // Response is a raw http response string
+//   Assume the http server feeds the entire raw http request here
+//   Response is a raw http response string
   public static String processRequest(String requestString) {
     ParsedRequest request = CustomParser.parse(requestString);
     BaseHandler handler = HandlerFactory.getHandler(request);
@@ -67,5 +67,7 @@ public class Server {
     // response.headers.put("Content-type", "application/json");
     return response.toString();
   }
+
+
 
 }

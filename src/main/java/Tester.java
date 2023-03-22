@@ -19,7 +19,8 @@ public class Tester {
                 + "Accept-Language: en-us\n"
                 + "Accept-Encoding: gzip, deflate\n"
                 + "Connection: Keep-Alive";
-        parse(test2);
+        parse(test1);
+//        parse(test2);
 
 
     }
@@ -29,26 +30,43 @@ public class Tester {
         ParsedRequest request = new ParsedRequest();
         String[] HTTPmessages = input.split("\n");
 
-        //item 0 = method, path, query
-        String[] textLine = HTTPmessages[0].split(" ");
-        request.setMethod(textLine[0]);
+        //method parse
+        String[] firstTextLine = HTTPmessages[0].split(" ");
+        request.setMethod(firstTextLine[0]);
 
-        String path = textLine[1];
-
-        while(path.length()!=0){
-            if (path.indexOf("?")<0){//path has no query parameter
-            }
+        //path parse
+        String path = firstTextLine[1];
+        if (!path.contains("?")){
+            request.setPath(path);
+            path = "";
         }
-        request.setPath(path.substring(0,path.indexOf("?")));
-        path = path.substring(path.indexOf("?"));
+        else{
+            request.setPath(path.substring(0,path.indexOf("?")));
+            path = path.substring(path.indexOf("?")+1);
+        }
 
+        //query parse
+        while(path.length()!=0){
+            if (path.contains("&")){//more than 1 query parameter
+                request.setQueryParam(path.substring(0,path.indexOf("=")), path.substring( (path.indexOf("=")+1),path.indexOf("&")));
+                path = path.substring(path.indexOf("&")+1);
+                continue;
+            }
+            request.setQueryParam(path.substring(0,path.indexOf("=")), path.substring( (path.indexOf("=")+1)));
+            path = "";
+        }
 
+        //HTTP version parse
+        request.setVersion(firstTextLine[2]);
 
-
-        //iterate through array
-        //item 1-n = headers and possibly a body
-
+        //header parse
+        for (int i=1; i<HTTPmessages.length; i++ ){
+            if ( !HTTPmessages[i].contains(":")&& !HTTPmessages[i].contains("\n")){
+                request.setBody(HTTPmessages[i]);
+            }
+            request.setHeaderParam( HTTPmessages[i].substring(0,HTTPmessages[i].indexOf(":")) , HTTPmessages[i].substring(HTTPmessages[i].indexOf(":")+2) );
+        }
 
     }
 
-}
+}//end of class

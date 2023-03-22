@@ -4,8 +4,7 @@ public abstract class BaseDto {
 
   private String uniqueId;
 
-  public BaseDto(String uniqueId) {
-    this.uniqueId = uniqueId;
+  public BaseDto(String uniqueId) { this.uniqueId = uniqueId;
   }
 
   public BaseDto() {
