@@ -12,7 +12,7 @@ public class MessageDao implements BaseDao<MessageDto> {
   private static MessageDao instance = new MessageDao();
 
   public static MessageDao getInstance() {
-    return null;
+    retun instance;
   }
 
   // TODO fill this out

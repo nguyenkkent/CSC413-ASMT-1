@@ -12,7 +12,7 @@ public class UserDao implements BaseDao<UserDto> {
   private static UserDao instance = new UserDao();
 
   public static UserDao getInstance() {
-    return null;
+    return instance;
   }
 
   // TODO fill this out
