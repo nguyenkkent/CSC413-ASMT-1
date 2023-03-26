@@ -69,8 +69,8 @@ public class Tester {
                 if (HTTPmessages[i].length()==0){
                     hasBody = true;
                 }
-                if( hasBody && (i==HTTPmessages.length-1)  ){
-                    request.setBody(HTTPmessages[i]);
+                if( (HTTPmessages[i].contains("{")&&HTTPmessages[i].contains("}")) || (hasBody && (i==HTTPmessages.length-1)) ){
+                    request.setBody(HTTPmessages[i].replaceAll("\\s","").replace("\n",""));
                 }
                 else if (HTTPmessages[i].length()>2){
                     request.setHeaderParam( HTTPmessages[i].substring(0,HTTPmessages[i].indexOf(":")) , HTTPmessages[i].substring(HTTPmessages[i].indexOf(":")+2) );

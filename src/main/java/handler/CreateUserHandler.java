@@ -19,18 +19,20 @@ public class CreateUserHandler implements BaseHandler{
         String json = request.getBody();
 
         UserDto user = GsonTool.gson.fromJson(json, UserDto.class);
+
         System.out.println("here is the body:" + json);
         System.out.println("here is the userDTO: ");
-        System.out.println(user.getUserName());
-        System.out.println(user.getUniqueId());
+        System.out.println("UserDto's getUserName(): " + user.getUserName());
+        System.out.println("UserDto's getUniqueId(): " + user.getUniqueId());
 
-//        UserDao userDao = UserDao.getInstance();
-//        userDao.put(user);
-//        List<UserDto> listOfUserDto = userDao.getAll();
+        UserDao userDao = UserDao.getInstance();
+        userDao.put(user);
+        List<UserDto> listOfUserDto = userDao.getAll();
+        var res = new RestApiAppResponse<>(true, listOfUserDto, null);
+        return new ResponseBuilder().setStatus("200 OK").setBody(GsonTool.gson.toJson(res)).build();
 
-//        var res = new RestApiAppResponse<>(true, listOfUserDto, null);
-//        return new ResponseBuilder().setStatus("200 OK").setBody(GsonTool.gson.toJson(res)).build();
-        return new ResponseBuilder().setStatus("200 OK").setBody(GsonTool.gson.toJson(user)).build();
+
+//        return new ResponseBuilder().setStatus("200 OK").setBody(GsonTool.gson.toJson(user)).build();
 
     }
 }
