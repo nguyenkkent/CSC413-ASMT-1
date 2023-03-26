@@ -63,8 +63,8 @@ public class Server {
     ParsedRequest request = CustomParser.parse(requestString);
     BaseHandler handler = HandlerFactory.getHandler(request);
     CustomHttpResponse response = handler.handleRequest(request);
-    // uncomment this if you want clients to format json response
-    // response.headers.put("Content-type", "application/json");
+//     uncomment this if you want clients to format json response
+     response.headers.put("Content-type", "application/json");
     return response.toString();
   }
 

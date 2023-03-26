@@ -39,19 +39,27 @@ public class CustomParser {
         request.setVersion(firstTextLine[2]);
 
         //header parse
-
+//        if (HTTPmessages.length>=2){
+//            for (int i=1; i<HTTPmessages.length; i++ ){
+//                if (  (!(HTTPmessages[i].contains("\n"))) && (i== HTTPmessages.length)  )  {
+//                    request.setBody(HTTPmessages[i]);
+//                }
+//                else if (HTTPmessages[i].length()>2){
+//                    request.setHeaderParam( HTTPmessages[i].substring(0,HTTPmessages[i].indexOf(":")) , HTTPmessages[i].substring(HTTPmessages[i].indexOf(":")+2) );
+//                }
+//            }
+//        }
         if (HTTPmessages.length>=2){
-            System.out.println("=============================");
             for (int i=1; i<HTTPmessages.length; i++ ){
-                System.out.println(HTTPmessages[i]);
-                if ( !(HTTPmessages[i].contains(":")) && !(HTTPmessages[i].contains("\n") && i==HTTPmessages.length) ){
+                if (  (HTTPmessages[i].contains("{")) && (HTTPmessages[i].contains("}")) && (i==HTTPmessages.length-1) )  {
                     request.setBody(HTTPmessages[i]);
                 }
-                else{
+                else if (HTTPmessages[i].length()>2){
                     request.setHeaderParam( HTTPmessages[i].substring(0,HTTPmessages[i].indexOf(":")) , HTTPmessages[i].substring(HTTPmessages[i].indexOf(":")+2) );
                 }
             }
         }
+
 
         return request;
     }

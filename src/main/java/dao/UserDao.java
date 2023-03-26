@@ -19,19 +19,21 @@ public class UserDao implements BaseDao<UserDto> {
     // TODO fill this out
     @Override
     public void put(UserDto userDto) {
-        userDtoMap.put(userDto.getUniqueId(), userDto);
+        this.userDtoMap.put(userDto.getUniqueId(), userDto);
     }
 
     // TODO fill this out
     @Override
     public UserDto get(String uniqueId) {
-        return userDtoMap.get(uniqueId);
+        return this.userDtoMap.get(uniqueId);
     }
 
     // TODO fill this out
     @Override
     public List<UserDto> getAll() {
-        return userDtoMap.values().stream().collect(Collectors.toList());
+        return this.userDtoMap.values().stream().collect(Collectors.toList());
+//        return new ArrayList<>(this.userDtoMap.values());
+
     }
 
     // only for testing, do not call this method

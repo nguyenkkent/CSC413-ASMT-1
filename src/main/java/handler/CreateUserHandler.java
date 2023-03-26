@@ -29,15 +29,14 @@ public class CreateUserHandler implements BaseHandler{
 
     @Override
     public CustomHttpResponse handleRequest(ParsedRequest request) {
-//        String json = "{\n" +
-//                       "    \"userName\": \"Kent1\"" +"\n" +
-//                        "}";
+
         String json = request.getBody();
+
         UserDto user = GsonTool.gson.fromJson(json, UserDto.class);
+        List<UserDto> listOfUserDto = List.of(user);
 
-        System.out.println("Here is the body:" + request.getBody());
-
-        return new ResponseBuilder().setStatus("200 OK").setBody(GsonTool.gson.toJson(user)).build();
+        var res = new RestApiAppResponse<>(true, listOfUserDto, null);
+        return new ResponseBuilder().setStatus("200 OK").setBody(GsonTool.gson.toJson(res)).build();
 
     }
 }
