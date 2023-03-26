@@ -52,16 +52,13 @@ public class CustomParser {
         boolean hasBody = false;
         if (HTTPmessages.length>=2){
             for (int i=1; i<HTTPmessages.length; i++ ){
-                System.out.println("current item for iteration: " + HTTPmessages[i]);
                 HTTPmessages[i] = HTTPmessages[i].replace(" ", "").replace("\n","").replace("\r","");
                 if ( HTTPmessages[i].contains("{") || (HTTPmessages[i].contains("}")) || (HTTPmessages.length<=2) ){
-                    System.out.println("we hit a curly brace or a newline char");
                     hasBody = true;
                     continue;
                 }
                 if(  (hasBody && (i==HTTPmessages.length-2))   ){
                     String strWithoutWhiteSpace = HTTPmessages[i].substring(HTTPmessages[i].indexOf("\""));
-                    System.out.println("substring: " + strWithoutWhiteSpace);
                     request.setBody("{" + strWithoutWhiteSpace + "}");
                 }
                 else if (HTTPmessages[i].length()>3 && (!HTTPmessages[i].contains("{") || !HTTPmessages[i].contains("}") )){
