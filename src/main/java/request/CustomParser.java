@@ -49,9 +49,13 @@ public class CustomParser {
 //                }
 //            }
 //        }
+        boolean hasBody = false;
         if (HTTPmessages.length>=2){
             for (int i=1; i<HTTPmessages.length; i++ ){
-                if (  (HTTPmessages[i].contains("{")) && (HTTPmessages[i].contains("}")) && (i==HTTPmessages.length-1) )  {
+                if (HTTPmessages[i].length()==0){
+                    hasBody = true;
+                }
+                if( hasBody && (i==HTTPmessages.length-1)  ){
                     request.setBody(HTTPmessages[i]);
                 }
                 else if (HTTPmessages[i].length()>2){
