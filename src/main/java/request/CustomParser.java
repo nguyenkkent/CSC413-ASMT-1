@@ -40,12 +40,16 @@ public class CustomParser {
 
         //header parse
 
-        if (HTTPmessages.length<=2){
+        if (HTTPmessages.length>=2){
+            System.out.println("=============================");
             for (int i=1; i<HTTPmessages.length; i++ ){
-                if ( !HTTPmessages[i].contains(":")&& !HTTPmessages[i].contains("\n")){
+                System.out.println(HTTPmessages[i]);
+                if ( !(HTTPmessages[i].contains(":")) && !(HTTPmessages[i].contains("\n") && i==HTTPmessages.length) ){
                     request.setBody(HTTPmessages[i]);
                 }
-                request.setHeaderParam( HTTPmessages[i].substring(0,HTTPmessages[i].indexOf(":")) , HTTPmessages[i].substring(HTTPmessages[i].indexOf(":")+2) );
+                else{
+                    request.setHeaderParam( HTTPmessages[i].substring(0,HTTPmessages[i].indexOf(":")) , HTTPmessages[i].substring(HTTPmessages[i].indexOf(":")+2) );
+                }
             }
         }
 
