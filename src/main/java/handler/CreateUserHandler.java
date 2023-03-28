@@ -17,22 +17,15 @@ public class CreateUserHandler implements BaseHandler{
     public CustomHttpResponse handleRequest(ParsedRequest request) {
 
         String json = request.getBody();
-
         UserDto user = GsonTool.gson.fromJson(json, UserDto.class);
-
-        System.out.println("here is the body:" + json);
-        System.out.println("here is the userDTO: ");
-        System.out.println("UserDto's getUserName(): " + user.getUserName());
-        System.out.println("UserDto's getUniqueId(): " + user.getUniqueId());
-
+        user.setUniqueId(String.valueOf(Math.random()));
         UserDao userDao = UserDao.getInstance();
         userDao.put(user);
         List<UserDto> listOfUserDto = userDao.getAll();
+
         var res = new RestApiAppResponse<>(true, listOfUserDto, null);
         return new ResponseBuilder().setStatus("200 OK").setBody(GsonTool.gson.toJson(res)).build();
 
-
-//        return new ResponseBuilder().setStatus("200 OK").setBody(GsonTool.gson.toJson(user)).build();
 
     }
 }

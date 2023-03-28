@@ -4,7 +4,7 @@ public class CustomParser {
 
     // extract java useable values from a raw http request string
     // https://developer.mozilla.org/en-US/docs/Web/HTTP/Messages
-    public static ParsedRequest parse(String input){
+    public static ParsedRequest parse(String input) {
 
         ParsedRequest request = new ParsedRequest();
         String[] HTTPmessages = input.split("\n");
@@ -15,23 +15,22 @@ public class CustomParser {
 
         //path parse
         String path = firstTextLine[1];
-        if (!path.contains("?")){
+        if (!path.contains("?")) {
             request.setPath(path);
             path = "";
-        }
-        else{
-            request.setPath(path.substring(0,path.indexOf("?")));
-            path = path.substring(path.indexOf("?")+1);
+        } else {
+            request.setPath(path.substring(0, path.indexOf("?")));
+            path = path.substring(path.indexOf("?") + 1);
         }
 
         //query parse
-        while(path.length()!=0){
-            if (path.contains("&")){//more than 1 query parameter
-                request.setQueryParam(path.substring(0,path.indexOf("=")), path.substring( (path.indexOf("=")+1),path.indexOf("&")));
-                path = path.substring(path.indexOf("&")+1);
+        while (path.length() != 0) {
+            if (path.contains("&")) {//more than 1 query parameter
+                request.setQueryParam(path.substring(0, path.indexOf("=")), path.substring((path.indexOf("=") + 1), path.indexOf("&")));
+                path = path.substring(path.indexOf("&") + 1);
                 continue;
             }
-            request.setQueryParam(path.substring(0,path.indexOf("=")), path.substring( (path.indexOf("=")+1)));
+            request.setQueryParam(path.substring(0, path.indexOf("=")), path.substring((path.indexOf("=") + 1)));
             path = "";
         }
 
@@ -40,29 +39,35 @@ public class CustomParser {
 
         //header parse
 //        if (HTTPmessages.length>=2){
+//            System.out.println("=============================");
 //            for (int i=1; i<HTTPmessages.length; i++ ){
-//                if (  (!(HTTPmessages[i].contains("\n"))) && (i== HTTPmessages.length)  )  {
+//                System.out.println(HTTPmessages[i]);
+//                if ( !(HTTPmessages[i].contains(":")) && !(HTTPmessages[i].contains("\n") && i==HTTPmessages.length) ){
 //                    request.setBody(HTTPmessages[i]);
 //                }
-//                else if (HTTPmessages[i].length()>2){
+//                else{
 //                    request.setHeaderParam( HTTPmessages[i].substring(0,HTTPmessages[i].indexOf(":")) , HTTPmessages[i].substring(HTTPmessages[i].indexOf(":")+2) );
 //                }
 //            }
 //        }
+
         boolean hasBody = false;
-        if (HTTPmessages.length>=2){
-            for (int i=1; i<HTTPmessages.length; i++ ){
-                HTTPmessages[i] = HTTPmessages[i].replace(" ", "").replace("\n","").replace("\r","");
-                if ( HTTPmessages[i].contains("{") || (HTTPmessages[i].contains("}")) || (HTTPmessages.length<=2) ){
+        if (HTTPmessages.length >= 2) {
+            for (int i = 1; i < HTTPmessages.length; i++) {
+                HTTPmessages[i] = HTTPmessages[i].replace(" ", "");
+
+                if ( (i==HTTPmessages.length-2) || HTTPmessages[i].contains("{") || (HTTPmessages[i].contains("}"))  )  {
                     hasBody = true;
-                    continue;
                 }
-                if(  (hasBody && (i==HTTPmessages.length-2))   ){
-                    String strWithoutWhiteSpace = HTTPmessages[i].substring(HTTPmessages[i].indexOf("\""));
-                    request.setBody("{" + strWithoutWhiteSpace + "}");
+                if ( hasBody&&(i==(HTTPmessages.length-2)) || hasBody&&(i==(HTTPmessages.length-1))    )  {
+                    if (HTTPmessages[i - 1].contains("{")) {
+                        String strWithoutWhiteSpace = HTTPmessages[i].replace(" ","");
+                    } else {
+                        request.setBody(HTTPmessages[i]);
+                    }
                 }
-                else if (HTTPmessages[i].length()>3 && (!HTTPmessages[i].contains("{") || !HTTPmessages[i].contains("}") )){
-                    request.setHeaderParam( HTTPmessages[i].substring(0,HTTPmessages[i].indexOf(":")) , HTTPmessages[i].substring(HTTPmessages[i].indexOf(":")) );
+                else if (HTTPmessages[i].length()>4  ){
+                    request.setHeaderParam(HTTPmessages[i].substring(0, HTTPmessages[i].indexOf(":")), HTTPmessages[i].substring(HTTPmessages[i].indexOf(":")));
                 }
             }
         }
