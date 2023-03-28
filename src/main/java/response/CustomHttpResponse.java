@@ -24,6 +24,9 @@ public class CustomHttpResponse {
     // TODO fill this out
     public String toString(){
         String output = version + " " + status + "\n";
+        if (output.contains("404")){
+            return "HTTP/1.1 404 Not Found\n";
+        }
 
         Iterator<String> iterator = headers.keySet().iterator();
         while (iterator.hasNext()){

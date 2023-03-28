@@ -12,7 +12,7 @@ public class MessageDto extends BaseDto{
   public MessageDto(){
     timestamp = Instant.now().toEpochMilli();
   }
-
+  //constructor
   public MessageDto(String uniqueId) {
     super(uniqueId);
     timestamp = Instant.now().toEpochMilli();

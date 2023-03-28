@@ -9,7 +9,6 @@ public class FallbackHandler implements BaseHandler {
 
     @Override
     public CustomHttpResponse handleRequest(ParsedRequest request) {
-        var res =  new RestApiAppResponse<>(false, null, null);
         return new ResponseBuilder().setStatus("HTTP/1.1 404 Not Found\n").build();
     }
 }
