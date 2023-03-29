@@ -31,7 +31,7 @@ public class GetMessagesHandler implements BaseHandler {
         }
         var res = new RestApiAppResponse<>(true, filteredListofMessageDtos, null);
 
-        return new ResponseBuilder().setStatus("OK 200").setBody(GsonTool.gson.toJson(res)).build();
+        return new ResponseBuilder().setStatus("200 OK").setBody(GsonTool.gson.toJson(res)).build();
     }
 
 }
